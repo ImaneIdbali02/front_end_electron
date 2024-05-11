@@ -1,4 +1,6 @@
+
 import * as React from 'react';
+import react, {useState} from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -31,7 +33,9 @@ import TextField from '@mui/material/TextField';
 import PersonIcon from '@mui/icons-material/Person';
 import FolderIcon from '@mui/icons-material/Folder';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-
+import  Acceuil from 'pages/Acceuil';
+import Finances from 'pages/Finances';
+import { BrowserRouter as Router ,Route ,Routes ,Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -152,6 +156,7 @@ export default function MiniDrawer() {
   };
 
   return (
+    <Router>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: '#5D8AA8' }}>
@@ -196,96 +201,102 @@ export default function MiniDrawer() {
         <List>
           {['Acceuil', 'Utilisateurs', 'Finance', 'Ressources Humaines', 'Partenaires', 'Opération'].map((text, index) => (
             <React.Fragment key={text}>
-              {text === 'Utilisateurs' ? (
-                <ListItem disablePadding>
-                  <ListItemButton onClick={handleUtilisateursToggle}>
-                    <ListItemIcon>
-                      <PeopleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                    <ListItemIcon>
-                      {utilisateursOpen ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemIcon>
-                  </ListItemButton>
-                </ListItem>
-              ) : text === 'Opération' ? ( // Check if 'Opération'
-                <ListItem disablePadding>
-                  <ListItemButton onClick={handleOperationToggle}>
-                    <ListItemIcon>
-                      <BusinessCenterIcon />
-                    </ListItemIcon>
-                    <ListItemText primary={text} />
-                    <ListItemIcon>
-                      {operationOpen ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemIcon>
-                  </ListItemButton>
-                </ListItem>
-              ) : (
-                <ListItem disablePadding sx={{ display: 'block' }}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? 'initial' : 'center',
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      
-                      {React.createElement(listIcons[index % listIcons.length])}
-                    </ListItemIcon>
-                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                  </ListItemButton>
-                </ListItem>
-              )}
-              {text === 'Utilisateurs' && (
-                <Collapse in={utilisateursOpen} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Membres" />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <PersonIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Visiteurs" />
-                    </ListItemButton>
-                  </List>
-                </Collapse>
-              )}
-              {text === 'Opération' && (
-                <Collapse in={operationOpen} timeout="auto" unmountOnExit> 
-                  <List component="div" disablePadding>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <FolderIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Pole 1 " />
-                    </ListItemButton>
-                    <ListItemButton sx={{ pl: 4 }}>
-                      <ListItemIcon>
-                        <FolderIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Pole 2" />
-                    </ListItemButton>
-                  </List>
-                </Collapse>
-              )}
+             {text === 'Utilisateurs' ? (
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleUtilisateursToggle}>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary={text} />
+            <ListItemIcon>
+              {utilisateursOpen ? <ExpandLess /> : <ExpandMore />}
+            </ListItemIcon>
+          </ListItemButton>
+        </ListItem>
+      ) : (
+        text === 'Finance' ? (
+          <ListItem disablePadding sx={{ minHeight: 48 }}>
+            <Link to="/finance" style={{ textDecoration: 'none', color: 'inherit' , width: '100%' }}>
+              <ListItemButton sx={{ width: '100%' }}>
+                <ListItemIcon>
+                  <AttachMoneyIcon />
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        ) : (
+          text === 'Acceuil' ? (
+            <ListItem disablePadding sx={{ minHeight: 48 }}>
+              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' , width: '100%' }}>
+                <ListItemButton sx={{ width: '100%' }}>
+                  <ListItemIcon>
+                    <HomeIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          ) : (
+            <ListItem disablePadding sx={{ display: 'block' }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5,
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {React.createElement(listIcons[index % listIcons.length])}
+                </ListItemIcon>
+                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )
+      )}
+      {text === 'Utilisateurs' && (
+        <Collapse in={utilisateursOpen} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Membres" />
+            </ListItemButton>
+            <ListItemButton sx={{ pl: 4 }}>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="Visiteurs" />
+            </ListItemButton>
+          </List>
+        </Collapse>
+      )}
             </React.Fragment>
           ))}
         </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          <Routes>
+            <Route path="/" element={<Acceuil />} />
+            <Route path="/finance" element={<Finances />} />
+            {/* Add more Route elements for other pages */}
+          </Routes>
+        </Box>
+
       </Box>
     </Box>
+    </Router>
+   
   );
 }
