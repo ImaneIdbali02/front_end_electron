@@ -1,15 +1,20 @@
 import React from 'react';
-import AddButton from 'components/AddButton'
-const AddUtil: React.FC = () => {
-  return (
-    <div>
-        <AddButton />
-       <h1>Ajouter un Utilisateur</h1>
+import BackButton from 'components/BackButton';
+import Form from 'components/Form';
+const AddUser: React.FC = () => {
+  
 
-    
+  return (
+    <>
+    <div style={{ marginTop: '-90px', marginLeft :' -10px'}} >
+      <BackButton/>
+      </div>
+      <div>
+      <Form/>
     </div>
+   </>
   );
 };
 
-export default AddUtil;
+export default AddUser;
 

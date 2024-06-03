@@ -1,28 +1,31 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { useNavigate } from 'react-router-dom';
 
-const AddButton: React.FC = () => {
+interface AddButtonProps {
+  title: string;
+  titleStyle?: React.CSSProperties;
+}
+const AddButton : React.FC<AddButtonProps> = ({ title, titleStyle }) => {
   const navigate = useNavigate();
 
-  const handleAddClick = () => {
-    navigate('pages/AddUser');
+  const handleClick = () => {
+     navigate('/pages/AddUser');
   };
 
   return (
-    <Button
-            variant="contained"
-            color="primary"
-            onClick={handleAddClick}
-            sx={{ 
-                backgroundImage: 'linear-gradient(to right, #5d8aa8, #4b6e90)',
-                '&:hover': { backgroundImage: 'linear-gradient(to right, #4b6e90, #5d8aa8)' }
-            }}
-        >
-            Ajouter
-        </Button>
+    <Button   variant="contained"
+              onClick={handleClick} 
+              color="primary"
+              sx={{
+              backgroundColor: '#82a4bc',
+             '&:hover': { backgroundColor: '#82a4bc' },
+             ...titleStyle,
+          }}>
+     <PersonAddIcon />
+    </Button>
   );
 };
 
 export default AddButton;
-
