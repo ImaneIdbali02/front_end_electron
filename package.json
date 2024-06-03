@@ -18,6 +18,8 @@
     "@mui/material": "^5.15.18",
     "@mui/x-data-grid": "^7.4.0",
     "@mui/x-date-pickers": "^7.4.0",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.7.2",
     "dayjs": "^1.11.11",
     "install": "^0.13.0",
     "npm": "^10.8.0",
