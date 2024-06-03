@@ -1,21 +1,25 @@
-
 import React from 'react';
-import Tab from 'components/tab'; // Assurez-vous que le chemin d'importation est correct
-import AddButton from '@/components/AddButton';
+import TabDm from '@/components/tabDm';
+import AddButton from 'components/AddButton';
+import CustomComponent from '@/components/AdminToolbar';
 
 const Acceuil: React.FC = () => {
     return (
-        <div style={{ position: 'relative' }}>
-            <div style={{ position: 'absolute', top: '-70px', right: '10px' }}>
-                <AddButton />
+        <div style={{ position: 'relative'}}>
+            <div style={{ position: 'absolute', top: '-100px' , width:'100%' }}>
+                <CustomComponent/>
             </div>
-            <Tab /> {/* Utilisation du composant Tab ici */}
+            <div style={{ position: 'absolute', top: '-25px', right: '10px' }}>
+               <AddButton title={'Ajouter un utilisateur'} />
+            </div>
+            <div style={{ position: 'relative', top: '40px'}}>
+            <TabDm />
+            </div>
+            
+           
+            
         </div>
     );
 };
 
 export default Acceuil;
-
-
-
-

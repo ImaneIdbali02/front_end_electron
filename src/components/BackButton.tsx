@@ -12,7 +12,7 @@ const BackButton: React.FC = () => {
 
     return (
         <IconButton onClick={handleGoBack} color="primary">
-            <ArrowBackIcon />
+            <ArrowBackIcon style={{ color: '#5D8AA8' }} />
         </IconButton>
     );
 };
