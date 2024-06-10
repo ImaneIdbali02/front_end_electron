@@ -10,7 +10,7 @@ const AddUser: React.FC = () => {
       <BackButton/>
       </div>
       <div>
-      <Form/>
+      <Form />
     </div>
    </>
   );

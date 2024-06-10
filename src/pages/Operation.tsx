@@ -1,7 +1,16 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, SetStateAction } from 'react';
 import BackButton from 'components/BackButton';
-import FolderList from 'components/Pole';
+import PolesComponent from 'components/Pole'; // Renommez ici pour éviter le conflit
 import CustomComponent from '@/components/AdminToolbar';
+import Pole from 'components/Pole';
+import { Link } from 'react-router-dom'; 
+
+
+interface Pole {
+  id_pole: number;
+  nom: string;
+  createdAt: string;
+}
 
 const Operations: React.FC = () => {
   const titleStyle: CSSProperties = {
@@ -9,22 +18,19 @@ const Operations: React.FC = () => {
     fontSize: '24px',
     fontWeight: 'bold',
     color: '#6a93af',
-    marginTop: '20px', // Ajustement de la marge supérieure pour le titre
-    marginLeft: '20px', // Ajustement de la marge gauche pour le titre
+    marginTop:'5px',
+    marginLeft: '20px',
   };
+ 
+  const [Poles, setPoles] = React.useState<Pole[]>([]);
 
   return (
     <>
       <div style={{ marginTop: '-100px' }}><CustomComponent /></div>
-
-       <div style={{ marginTop: '5px' }}>
-        <BackButton />
-       </div>       {/* Ajustement de la marge supérieure pour le bouton de retour */}
-
-      <div style={titleStyle}>Poles</div>
-
-      <div style={{ marginTop: '15px' }}> {/* Ajustement de la marge supérieure pour la liste de dossiers */}
-        <FolderList />
+      <div style={{ marginTop: '5px' }}><BackButton /></div>
+      <div style={{ ...titleStyle, marginTop: ' 5px' }}>Poles</div>
+      <div style={{ marginTop: '-30px' }}>
+        <PolesComponent poles={Poles} setPoles={setPoles} />
       </div>
     </>
   );

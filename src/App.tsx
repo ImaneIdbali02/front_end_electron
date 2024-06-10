@@ -1,10 +1,11 @@
-import React from 'react';
-import UserList from 'pages/Testapi';
+
+import MiniDrawer from './pages/MiniDrawer';
+
 
 function App() {
   return (
    
-    <UserList/>
+    <MiniDrawer/>
       
   );
 }

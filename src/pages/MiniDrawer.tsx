@@ -34,12 +34,14 @@ import Membres from 'pages/Membres';
 import Visiteur from 'pages/Visiteur'; 
 import AddUser from 'pages/AddUser';
 import Operations from 'pages/Operation';
+import ProjetsAdmin from 'pages/projets';
+import Ville from 'pages/villes';
+import Projets from 'pages/projets';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 
 
 const drawerWidth = 240;
-
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
   transition: theme.transitions.create('width', {
@@ -150,7 +152,10 @@ export default function MiniDrawer() {
 
   const handleUtilisateursToggle = () => {
     setUtilisateursOpen(!utilisateursOpen);
-  };
+  }
+
+ // Définissez l'état initial des pôles et une fonction pour les mettre à jour
+
 
 
   return (
@@ -256,6 +261,9 @@ export default function MiniDrawer() {
               <Route path="/pages/AddUser" element={<AddUser />} />
               <Route path="/utilisateurs/membres" element={<Membres />} />
               <Route path="/Operation" element={<Operations />} />
+             
+              <Route path="Operation/projets/:pole_id" element={<ProjetsAdmin />} />
+              <Route path="/Operation/projets/villes/:projet_id" element={<Ville />} />
             </Routes>
           </Box>
         </Box>

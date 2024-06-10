@@ -13,16 +13,21 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { createTheme, ThemeProvider, useMediaQuery } from '@mui/material';
 import { TableSortLabel } from '@mui/material';
+import api from '../api';
+import axios, { AxiosError } from 'axios';
+
 
 interface Column {
-  id: 'nom' | 'prenom' | 'email' | 'connexionRecente' | 'modification';
+  id: 'id_username'|'nom' | 'prenom' | 'email' | 'connexionRecente' | 'modification' ; // Mettez à jour le type pour inclure la nouvelle colonne
   label: string;
   minWidth?: number;
   align?: 'right';
   format?: (value: any) => string;
 }
 
+
 const columns: readonly Column[] = [
+  { id: 'id_username', label: 'ID', minWidth: 100, align: 'right' }, // Mettez "id_username" en première position
   { id: 'nom', label: 'Nom', minWidth: 100 },
   { id: 'prenom', label: 'Prénom', minWidth: 100 },
   { id: 'email', label: 'Email', minWidth: 100 },
@@ -42,7 +47,9 @@ interface Data {
   email: string;
   connexionRecente: string;
   modification: string;
+  id_username: string; // Ajoutez la nouvelle clé ici
 }
+
 
 const theme = createTheme({
   palette: {
@@ -70,20 +77,21 @@ export default function StickyHeadTable() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   React.useEffect(() => {
-    // Remplacez cette partie par votre appel API pour récupérer les données
-    const fetchData = async () => {
-      const data = [
-        { nom: 'Dupont', prenom: 'Jean', email: 'jean.dupont@example.com', connexionRecente: '2024-05-15T12:30:00', modification: '' },
-        { nom: 'Martin', prenom: 'Sophie', email: 'sophie.martin@example.com', connexionRecente: '2024-05-14T15:45:00', modification: '' },
-        { nom: 'Bernard', prenom: 'Luc', email: 'luc.bernard@example.com', connexionRecente: '2024-05-13T08:20:00', modification: '' },
-        { nom: 'Petit', prenom: 'Claire', email: 'claire.petit@example.com', connexionRecente: '2024-05-12T11:00:00', modification: '' },
-        { nom: 'Robert', prenom: 'Nicolas', email: 'nicolas.robert@example.com', connexionRecente: '2024-05-11T17:15:00', modification: '' },
-      ];
-      setRows(data);
-    };
-
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await api.usersApi.get('/Membre'); // Assurez-vous de mettre à jour l'URL en fonction de votre endpoint
+      const modifiedData = response.data.map((item: any) => ({
+        ...item,
+        //id_username: item.id_username, // Assurez-vous d'obtenir les données appropriées de l'API
+      }));
+      setRows(modifiedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>, row: Data) => {
     setAnchorEl(event.currentTarget);
@@ -160,14 +168,30 @@ export default function StickyHeadTable() {
     handleClose();
   };
 
-  const handleDelete = () => {
-    // Logique de suppression
-    const confirmation = window.confirm('Êtes-vous sûr de vouloir supprimer ce membre ?');
-    if (confirmation) {
-      setRows((prevRows) => prevRows.filter((row) => row !== menuRow));
+  
+
+  const handleDelete = async () => {
+    try {
+      const confirmation = window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?");
+      if (confirmation && menuRow) {
+        await api.usersApi.delete(`/${menuRow.id_username}`);
+        setRows((prevRows) => prevRows.filter((row) => row.id_username !== menuRow.id_username));
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.error("Error deleting user:", (error as AxiosError).response); // Affichez la réponse de l'erreur
+      } else {
+        console.error("Error deleting user:", error);
+      }
+    } finally {
+      handleClose();
     }
-    handleClose();
   };
+  
+  
+  
+  
+  
 
   return (
     <ThemeProvider theme={theme}>

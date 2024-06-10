@@ -24,7 +24,11 @@
     "paths": {
       "@/*":["src/*"],
       "components/*":["./src/components/*"],
-      "pages/*":["./src/pages/*"]
+      "componentsMem/*":["./src/componentsMem/*"],
+      "componentsvis/*":["./src/componentsvis/*"],
+      "pages/*":["./src/pages/*"],
+      "pagesMem/*":["./src/pagesMem/*"],
+      "pagesVis/*":["./src/pagesVis/*"],
     },
   },
   "include": ["src", "electron"],

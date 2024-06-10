@@ -1,50 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUsers } from '../../api';
+import api from '../api';
 
-interface User {
-  users: string[];
-}
-
-const UserList: React.FC = () => {
-  const [users, setUsers] = useState<User | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+const MyComponent: React.FC = () => {
+  const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
-    const getUsers = async () => {
+    const fetchUsers = async () => {
       try {
-        const data: User = await fetchUsers();
-        setUsers(data);
-      } catch (err) {
-        setError('Failed to fetch users');
-      } finally {
-        setLoading(false);
+        const response = await api.get('/Utilisateurs');
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error fetching data', error);
       }
     };
 
-    getUsers();
+    fetchUsers();
   }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <div>
-      <h1>User List</h1>
-      {users && (
-        <ul>
-          {users.users.map((user, index) => (
-            <li key={index}>{user}</li>
-          ))}
-        </ul>
-      )}
+      <h1>Utilisateurs</h1>
+      <ul>
+        {users.map(user => (
+          <li key={user.id_username}>{user.nom} {user.prenom} {user.id_username}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default UserList;
+export default MyComponent;
